@@ -27,7 +27,7 @@ fn divide(a: i64, b: i64) -> Result<i64, DivisionError> {
 fn result_with_list() -> Result<Vec<i64>, DivisionError> {
     //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     let numbers = [27, 297, 38502, 81];
-    let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    let division_results = numbers.into_iter().map(|n| divide(*n, 27));
     // Collects to the expected return type. Returns the first error in the
     // division results (if one exists).
     division_results.collect()
@@ -36,7 +36,7 @@ fn result_with_list() -> Result<Vec<i64>, DivisionError> {
 fn list_of_results() -> Vec<Result<i64, DivisionError>> {
     //               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     let numbers = [27, 297, 38502, 81];
-    let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    let division_results = numbers.into_iter().map(|n| divide(*n, 27));
     // Collects to the expected return type.
     division_results.collect()
 }

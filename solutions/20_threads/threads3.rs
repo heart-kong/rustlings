@@ -17,8 +17,9 @@ impl Queue {
 fn send_tx(q: Queue, tx: mpsc::Sender<u32>) {
     // Clone the sender `tx` first.
     let tx_clone = tx.clone();
+    let Queue { first_half, second_half } = q;
     thread::spawn(move || {
-        for val in q.first_half {
+        for val in first_half {
             println!("Sending {val:?}");
             // Then use the clone in the first thread. This means that
             // `tx_clone` is moved to the first thread and `tx` to the second.
@@ -28,7 +29,7 @@ fn send_tx(q: Queue, tx: mpsc::Sender<u32>) {
     });
 
     thread::spawn(move || {
-        for val in q.second_half {
+        for val in second_half {
             println!("Sending {val:?}");
             tx.send(val).unwrap();
             thread::sleep(Duration::from_millis(250));
